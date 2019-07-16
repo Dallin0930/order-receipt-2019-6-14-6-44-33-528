@@ -18,45 +18,26 @@ public class OrderReceipt {
 
 
     public String printReceipt() {
-
         StringBuilder output = new StringBuilder();
 
         printHeaders(output);
+
         printCustomerNaneAndDress(output);
 
         printLineItems(output);
 
-        double totalSaleTax=calcuteTotalSaleTax(0.1);
+
+        final double tax= 0.1;
+        double totalSaleTax=calculateTotalSaleTax(tax);
         printSaleTax(output,totalSaleTax);
 
-        double totalLneItem=calculateTotalLineItem(0.1);
+
+        double totalLneItem=calculateTotalLineItem(tax);
         printTotalAmount(output,totalLneItem);
 
         return output.toString();
 
-        // prints lineItems
-//        double totSalesTx = 0d;
-////        double tot = 0d;
-//        for (LineItem lineItem : order.getLineItems()) {
-//            output.append(lineItem.getDescription());
-//            output.append('\t');
-//            output.append(lineItem.getPrice());
-//            output.append('\t');
-//            output.append(lineItem.getQuantity());
-//            output.append('\t');
-//            output.append(lineItem.totalAmount());
-//            output.append('\n');
 
-
-
-            // calculate sales tax @ rate of 10%
-//            double salesTax = lineItem.totalAmount() * .10;
-//            totSalesTx += salesTax;
-
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
-//            tot += lineItem.totalAmount() + salesTax;
-//        }
-    // prints the state tax
 
     }
 
@@ -68,16 +49,16 @@ public class OrderReceipt {
         output.append("Total Amount").append('\t').append(totalLneItem);
     }
 
-    private double calculateTotalLineItem(double v) {
-    return order.getLineItems().stream().mapToDouble(item -> item.totalAmount()+item.totalAmount()*0.1).sum();
+    private double calculateTotalLineItem(double tax) {
+    return order.getLineItems().stream().mapToDouble(item -> item.totalAmount()+item.totalAmount()*tax).sum();
     }
 
     private void printSaleTax(StringBuilder output, double totalSaleTax) {
         output.append("Sales Tax").append('\t').append(totalSaleTax);
     }
 
-    private double calcuteTotalSaleTax(double v) {
-         return order.getLineItems().stream().mapToDouble(item -> item.totalAmount() *  0.1).sum();
+    private double calculateTotalSaleTax(double tax) {
+         return order.getLineItems().stream().mapToDouble(item -> item.totalAmount() *  tax).sum();
     }
 
     private void printLineItems(StringBuilder output) {
